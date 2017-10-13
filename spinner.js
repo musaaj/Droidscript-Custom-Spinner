@@ -5,7 +5,10 @@ function Spinner(list, title, width, height , options)
 	self.title  = title;
 	self.width = width;
 	self.height = height;
-	self.options  = options;
+	self.options  = options;spin.onTouch  = function ()
+{
+	app.ShowPopup( this.GetText() );
+}
 	self.collapsed = true;
 	
 	self.toggle = function()
@@ -58,6 +61,6 @@ function Spinner(list, title, width, height , options)
 	
 	self.titleTxt = app.CreateText( title,self.width,self.height,self.options );
 	self.titleTxt.SetTextSize( 14 );
-  self.titleTxt.SetOnTouchDown( self.toggle);
-  return self.titleTxt;
+        self.titleTxt.SetOnTouchDown( self.toggle);
+        return self.titleTxt;
 }
