@@ -1,70 +1,68 @@
-function Spinner(list, title, width, height , options)
+function Spinner(list,title,width,height,options)
 {
-	self  = this;
-	self.list = list;
-	self.title  = title;
-	self.width = width;
-	self.height = height;
-	self.options  = options;
-	self.collapsed = true;
+	this.list = list;
+	this.title  = title;
+	this.width = width;
+	this.height = height;
+	this.options  = options;
 	
-	self.toggle = function()
-	{
-	  child = this;
-	  child.left = child.GetLeft() - 0.01;
-	  child.top  = child.GetTop();
-	  child.txt  = child.GetText();
-	  
-	  if (self.collapsed )
+	this.toggle = function ()
+  {
+    this.left = this.GetLeft(  );
+    this.top = this.GetTop(  );
+    
+     if (this.collapsed )
 	  {
-	    self.lay = app.CreateLayout( "absolute", "TouchThrough" );
-	    self.lay.SetPosition(1,1,1,1);
-	    self.lay.SetPadding( 0,0.035,0,0 );
-	    self.lay.SetOnTouchDown( function()
+	    this.lay = app.CreateLayout( "absolute", "TouchThrough" );
+	    this.lay.SetPosition(1,1,1,1);
+	    this.lay.SetPadding( 0,0.025,0,0 );
+	    this.lay.SetOnTouchDown( function()
 	    {
-	      app.RemoveLayout( this );
+	      app.DestroyLayout( this );
 	    });
 	    
-	    self.scrollLay = app.CreateLayout( "absolute", "TouchThrough" );
-	    self.scrollLay.SetPosition( child.left, child.top, -1, -1);
-	    self.lay.AddChild( self.scrollLay );
+	    this.scrollLay = app.CreateLayout( "absolute", "TouchThrough" );
+	    this.scrollLay.SetPosition( this.left, this.top, -1, -1);
+	    this.scrollLay.SetPadding( 0.01, 0.01, 0.01, 0.01 );
+	    this.lay.AddChild( this.scrollLay );
 	    
-	    self.scroll = app.CreateScroller(-1,-1);
-	    self.scroll.SetPosition( child.left, child.top, -1,-1);
-	    self.scroll.SetBackColor( "#05000000" );
-	    self.scroll.SetPadding( 0.005, 0, 0.005, 0.005);
-	    self.lay.AddChild( self.scroll );
+	    this.scroll = app.CreateScroller(-1,-1);
+	    this.scroll.SetBackColor( "#05000000" );
+	    this.scroll.SetPadding( 0.005, 0, 0.005, 0.005);
+	    this.scrollLay.AddChild( this.scroll );
 	    
-	    self.tray  = app.CreateLayout( "Linear", "TouchThrough" );
-	    self.tray.SetBackColor( "#000000" );
-	    self.scroll.AddChild(self.tray );
+	    this.tray  = app.CreateLayout( "Linear", "TouchThrough" );
+	    this.tray.SetBackColor( "#000000" );
+	    this.scroll.AddChild(this.tray );
 	    
-	    self.list.forEach( function(item)
+	    for ( i in this.list)
 	    {
-	      self.item = app.CreateText(item,self.width,self.height,self.options+"FillX");
-	      self.item.SetOnTouch( self.titleTxt.onTouch);
-	      self.item.SetPadding( 0.01,0.01,0.01,0.01 );
-	      self.item.SetMargins( 0, 0, 0, 0.002);
-	      self.item.SetBackColor( "#ffffff" );
-	      self.item.SetTextSize( 15);
-	      self.tray.AddChild( self.item );
-	    });
+	      this.item = app.CreateText(this.list[i],this.width,this.height,this.options+"FillX");
+	      this.item.SetOnTouch( this.onTouch);
+	      this.item.SetPadding( 0.01,0.01,0.01,0.01 );
+	      this.item.SetMargins( 0, 0, 0, 0.002);
+	      this.tray.AddChild( this.item );
+	    }
 	    
-	    app.AddLayout( self.lay );
-	    self.collapsed = false;
+	    app.AddLayout( this.lay );
+	    this.collapsed = false;
 	  }
 	  else
 	  {
-	    self.collapsed  = true;
-	    app.RemoveLayout( self.lay );
+	    this.collapsed  = true;
+	    app.DestroyLayout( this.lay );
 	  }
-	}
+  }
+
 	
-	self.titleTxt = app.CreateText( title,self.width,self.height,self.options );
-	self.titleTxt.SetTextSize( 15);
-	self.titleTxt.onTouch = null;
-	self.titleTxt.SetPadding( 0.01,0.01,0.01,0.01 );
-	self.titleTxt.SetBackColor( "#ffffff" );
-  self.titleTxt.SetOnTouchDown( self.toggle);
-  return self.titleTxt;
+	this.titleTxt = app.CreateText( this.title,this.width,this.height,this.options);
+	this.titleTxt.list = this.list;
+	this.titleTxt.title = this.title;
+	this.titleTxt.width = this.width;
+	this.titleTxt.height = this.height;
+	this.titleTxt.options = this.options;
+	this.titleTxt.collapsed = true;
+	this.titleTxt.onTouch  = null;
+	this.titleTxt.SetOnTouchDown( this.toggle);
+	return this.titleTxt;
 }
