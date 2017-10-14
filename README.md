@@ -14,8 +14,11 @@ spinner = new Spinner(list, title, width, height, options);
 *//Set a function to be called when a drop-down item is touched
 
 spinner.onTouch = function()
+
 {
+
   app.ShowPopup(this.GetText());
+  
 }
 
 *//add the custom spinner to a layout*
